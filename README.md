@@ -1,0 +1,2 @@
+# Framework_RizkiHendraNetCore8_Monolith
+Framework_RizkiHendraNetCore8_Monolith
