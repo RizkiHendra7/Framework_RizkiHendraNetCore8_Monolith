@@ -1747,6 +1747,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Transaction\" />
+    <Folder Include="wwwroot\JsForm\Transaction\" />
   </ItemGroup>
 
 </Project>

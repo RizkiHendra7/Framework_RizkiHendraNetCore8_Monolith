@@ -1,4 +1,6 @@
-﻿ 
+﻿
+using FrameWorkRHP_Mono.Core.Models.Custom;
+
 namespace FrameWorkRHP_Mono.Services.Interfaces.GenericInterface
 {
     public interface IGenericService<T> where T : class
@@ -9,5 +11,6 @@ namespace FrameWorkRHP_Mono.Services.Interfaces.GenericInterface
         Task<T> GetDataById(int ParamIntId);
         Task<bool> UpdateData(T ParamModels);
         Task<bool> DeleteData(int ParamIntId);
+        Task<cstmResultModelDataTable> getDataPaging(cstmFilterDataTable paramModel);
     }
 }
