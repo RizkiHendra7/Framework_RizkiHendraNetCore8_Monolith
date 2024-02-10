@@ -8,6 +8,8 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
     {
         GenericRepository<Muser> MUsers { get; }
         GenericRepository<Mrole> MRoles { get; }
+        GenericRepository<MMenu> MMenus { get; }
+        GenericRepository<MRoleXMenu> MRoleXMenus { get; }
         void CreateTransaction();
         void Commit();
         void Rollback();

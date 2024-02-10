@@ -1,6 +1,7 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Infrastructure.Context;
 using FrameWorkRHP_Mono.Infrastructure.UOW;
+using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using FrameWorkRHP_Mono.Services.ServicesImplement;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace FrameWorkRHP_Mono.Services
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericService<Mrole>, MRoleService>();
             services.AddScoped<IGenericService<Muser>, MUserService>();
+            services.AddScoped<IGenericService<MMenu>, MMenuServices>();
+            services.AddScoped<IGeneratedMenu, MMenuServices>();
 
             return services;
         }

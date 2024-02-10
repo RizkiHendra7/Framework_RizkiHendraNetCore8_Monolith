@@ -5,12 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FrameWorkRHP_Mono.Core.Models.EF
-{ 
-    public partial class Mrole
+{
+    public partial class MMenu
     {
-        public int Introleid { get; set; }
+        public int Intmenuid { get; set; }
 
-        public string Txtrolename { get; set; } = null!;
+        public int? Intparentmenuid { get; set; }
+
+        public string Txtmenuname { get; set; } = null!;
+
+        public string Txtmenudisplay { get; set; } = null!;
+
+        public string Txtmenuicon { get; set; } = null!;
+
+        public string Txturl { get; set; } = null!; 
 
         public bool? Bitactive { get; set; }
 
@@ -21,10 +29,7 @@ namespace FrameWorkRHP_Mono.Core.Models.EF
         public DateTime? Dtupdated { get; set; }
 
         public string? Txtupdated { get; set; }
-
         public virtual ICollection<MRoleXMenu> Mrolexmenus { get; set; } = new List<MRoleXMenu>();
-
-        public virtual ICollection<Muserrole> Muserroles { get; set; } = new List<Muserrole>();
     }
 
 }

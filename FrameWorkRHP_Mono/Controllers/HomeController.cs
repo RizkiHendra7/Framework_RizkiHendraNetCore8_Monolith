@@ -1,3 +1,4 @@
+using FrameWorkRHP_Mono.Core.CommonFunction;
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Models;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
@@ -22,6 +23,7 @@ namespace FrameWorkRHP_Mono.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.ActivePage = clsGlobalConstant.menu.MasterUser;
             return View();
         }
 

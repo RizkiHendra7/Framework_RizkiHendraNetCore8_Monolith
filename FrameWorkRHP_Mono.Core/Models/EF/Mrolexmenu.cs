@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace FrameWorkRHP_Mono.Core.Models.EF
 { 
-    public partial class Mrole
+    public partial class MRoleXMenu
     {
-        public int Introleid { get; set; }
+        public int Intmrolexmenuid { get; set; }
 
-        public string Txtrolename { get; set; } = null!;
+        public int Intmenuid { get; set; }
+
+        public int Introleid { get; set; }
 
         public bool? Bitactive { get; set; }
 
@@ -22,9 +24,9 @@ namespace FrameWorkRHP_Mono.Core.Models.EF
 
         public string? Txtupdated { get; set; }
 
-        public virtual ICollection<MRoleXMenu> Mrolexmenus { get; set; } = new List<MRoleXMenu>();
+        public virtual MMenu Intmenu { get; set; } = null!;
 
-        public virtual ICollection<Muserrole> Muserroles { get; set; } = new List<Muserrole>();
+        public virtual Mrole Introle { get; set; } = null!;
     }
 
 }

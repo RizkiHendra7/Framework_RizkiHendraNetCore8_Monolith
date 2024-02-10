@@ -19,12 +19,16 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
 
         public GenericRepository<Muser> MUsers { get; private set; }
         public GenericRepository<Mrole> MRoles { get; private set; }
+        public GenericRepository<MMenu> MMenus { get; private set; }
+        public GenericRepository<MRoleXMenu> MRoleXMenus { get; private set; }
 
         public UnitOfWork(AppsDbContext _context)
         {
             Context = _context;
             MUsers = new GenericRepository<Muser>(Context);
             MRoles = new GenericRepository<Mrole>(Context);
+            MMenus = new GenericRepository<MMenu>(Context);
+            MRoleXMenus = new GenericRepository<MRoleXMenu>(Context);
         }
 
         public void CreateTransaction()

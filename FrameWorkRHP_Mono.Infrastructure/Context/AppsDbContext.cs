@@ -18,11 +18,11 @@ namespace FrameWorkRHP_Mono.Infrastructure.Context
         }
 
 
-        public virtual DbSet<Mrole> Mroles { get; set; }
-
-        public virtual DbSet<Muser> Musers { get; set; }
-
+        public virtual DbSet<Mrole> Mroles { get; set; } 
+        public virtual DbSet<Muser> Musers { get; set; } 
         public virtual DbSet<Muserrole> Muserroles { get; set; }
+        public virtual DbSet<MMenu> Mmenus { get; set; }
+        public virtual DbSet<MRoleXMenu> MRoleXMenus { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace FrameWorkRHP_Mono.Infrastructure.Context
             ClsMroleBuilder.Builder(ref modelBuilder);
             ClsMuserBuilder.Builder(ref modelBuilder);
             ClsMuserroleBuilder.Builder(ref modelBuilder);
+            ClsMmenuBuilder.Builder(ref modelBuilder);
+            ClsMmenuBuilder.Builder(ref modelBuilder);
+            ClsMRoleXMenuBuilder.Builder(ref modelBuilder);
         }
     } 
 }
