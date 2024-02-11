@@ -20,7 +20,8 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
         public GenericRepository<Muser> MUsers { get; private set; }
         public GenericRepository<Mrole> MRoles { get; private set; }
         public GenericRepository<MMenu> MMenus { get; private set; }
-        public GenericRepository<MRoleXMenu> MRoleXMenus { get; private set; }
+        public GenericRepository<MRoleXMenu> MRoleXMenus { get; private set; } 
+        public IGenericDataTables genericDataTables { get; private set; }
 
         public UnitOfWork(AppsDbContext _context)
         {
@@ -29,6 +30,7 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
             MRoles = new GenericRepository<Mrole>(Context);
             MMenus = new GenericRepository<MMenu>(Context);
             MRoleXMenus = new GenericRepository<MRoleXMenu>(Context);
+            genericDataTables = new GenericDataTables(Context);
         }
 
         public void CreateTransaction()

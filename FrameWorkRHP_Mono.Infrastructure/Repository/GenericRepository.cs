@@ -62,51 +62,6 @@ namespace FrameWorkRHP_Mono.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<cstmResultModelDataTable> getWithDataTable(string ParamQuery, int ParamDraw)
-        {
-
-            //public async Task<cstmResultModelDataTable> getWithDataTable(IQueryable<T> ParamQuery, int ParamDraw)
-            //var resultExecQuery = await ParamQuery.AsNoTracking().ToListAsync();
-            var result = new cstmResultModelDataTable();
-
-            try
-            {
-                var queryable = _context.Set<T>().AsQueryable();
-                var resultExecQuery = await queryable.AsNoTracking().ToListAsync();
-
-                if (resultExecQuery.Count > 0)
-                {
-                    result.data = resultExecQuery;
-                    result.draw = ParamDraw;
-
-                    Type type = resultExecQuery.GetType();
-                    PropertyInfo propertyInfo = type.GetProperty("TOTALDATA");
-                    if (propertyInfo != null)
-                    {
-                      result.recordsTotal = propertyInfo.GetValue(resultExecQuery);
-                      result.recordsFiltered = propertyInfo.GetValue(resultExecQuery);
-                    }
-
-                }
-                else
-                {
-                    result.data = resultExecQuery;
-                    result.draw = ParamDraw;
-                    result.recordsTotal = 0;
-                    result.recordsFiltered = 0;
-                } 
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.errorMessage = ex.Message;
-                result.recordsTotal = 0;
-                result.recordsFiltered = 0;
-                return result;
-            }
-           
-
-        }
+        
     }
 }

@@ -15,6 +15,5 @@ namespace FrameWorkRHP_Mono.Infrastructure.Repository
         Task UpdateAsync(T ParamModel);
         Task DeleteAsync(object ParamId);
         Task SaveAsync();
-        Task<cstmResultModelDataTable> getWithDataTable(string ParamQuery, int ParamDraw);
     }
 }

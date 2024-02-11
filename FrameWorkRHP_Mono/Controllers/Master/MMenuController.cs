@@ -33,7 +33,8 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                var result = await _MMenuService.getDataPaging(param);
+                var result = new cstmResultModelDataTable();
+                //var result = await _MMenuService.getDataPaging(param);
                 return Json(result);
             }
             catch (Exception ex)

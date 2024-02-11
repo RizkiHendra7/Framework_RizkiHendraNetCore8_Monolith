@@ -1,6 +1,9 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.Custom;
 using FrameWorkRHP_Mono.Core.Models.EF;
+using FrameWorkRHP_Mono.Core.Models.ViewModels;
+using FrameWorkRHP_Mono.Infrastructure.Repository;
 using FrameWorkRHP_Mono.Infrastructure.UOW;
+using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface; 
 
 namespace FrameWorkRHP_Mono.Services.ServicesImplement
@@ -65,12 +68,13 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
             return MUserData;
         }
 
-        public async Task<cstmResultModelDataTable> getDataPaging(cstmFilterDataTable paramModel)
+        public async Task<cstmResultModelDataTable> getWithDataTable(cstmFilterDataTable paramModel)
         {
             var query = "SELECT\r\n   *, COUNT(*) OVER () AS TOTALDATA\r\nFROM\r\n  muser\r\nORDER BY\r\n   intuserid \r\nOFFSET 2 \r\nLIMIT 1;";
-            var result = await _unitOfWork.MUsers.getWithDataTable(query,paramModel.draw); 
+            var result = await _unitOfWork.genericDataTables.getWithDataTable<VwUser.indexDataTable>(query, paramModel.draw);
             return result;
         }
+         
 
         public async Task<bool> UpdateData(Muser ParamModels)
         {

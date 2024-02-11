@@ -11,6 +11,6 @@ namespace FrameWorkRHP_Mono.Services.Interfaces.GenericInterface
         Task<T> GetDataById(int ParamIntId);
         Task<bool> UpdateData(T ParamModels);
         Task<bool> DeleteData(int ParamIntId);
-        Task<cstmResultModelDataTable> getDataPaging(cstmFilterDataTable paramModel);
+        Task<cstmResultModelDataTable> getWithDataTable(cstmFilterDataTable paramModel);
     }
 }

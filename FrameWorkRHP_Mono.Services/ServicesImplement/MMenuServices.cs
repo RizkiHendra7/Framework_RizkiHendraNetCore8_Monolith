@@ -82,14 +82,7 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
                 throw;
             }
         }
-
-        public async Task<cstmResultModelDataTable> getDataPaging(cstmFilterDataTable paramModel)
-        {
-            var query = "SELECT\r\n   *, COUNT(*) OVER () AS TOTALDATA\r\nFROM\r\n  Mmenu m \r\nORDER BY\r\n   introleid \r\nOFFSET 2 \r\nLIMIT 1;";
-            var result = await _unitOfWork.MUsers.getWithDataTable(query, paramModel.draw);
-            return result;
-        }
-
+         
         public async Task<string> generatedDynamicMenu(int paramRoleId)
         {
             try
@@ -114,13 +107,10 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
                         result += " <i class=\"right fas fa-angle-left\"></i>\r\n</p>\r\n</a>";
                         foreach (var childMenu in allMenu.Where(x => x.Intparentmenuid == menu.Intmenuid).ToList())
                         {
-                            //result += " <ul class=\"nav nav-treeview\">";
-                            //result += "<li class=\"nav-item\">\r\n <a href=\""+childMenu.Txturl+"\" class=\"nav-link\">\r\n <i class=\"far fa-circle nav-icon\"></i>\r\n <p>"+childMenu.Txtmenudisplay+"</p>\r\n </a>\r\n </li>";                    
-                            //result += generatedDynamicChildMenu(result, allMenu, childMenu.Intmenuid); 
-
-                            result += generatedDynamicChildMenu(result, allMenu, childMenu);
-                            result += " </ul>\r\n </li>";
+                            result = await generatedDynamicChildMenu(result, allMenu, childMenu);
+                            result += " </ul>";
                         }
+                        result += "\r\n </li>";
                     }
                     else
                     {
@@ -138,14 +128,14 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
          public async Task<string> generatedDynamicChildMenu(string paramHtmlMenu, IEnumerable<MMenu> paramAllMenu, MMenu paramModelParentMenu)
         {
             paramHtmlMenu += " <ul class=\"nav nav-treeview\">";
-            paramHtmlMenu += "<li class=\"nav-item\">\r\n <a href=\"" + paramModelParentMenu.Txturl + "\" class=\"nav-link\">\r\n <i class=\"far fa-circle nav-icon\"></i>\r\n <p>" + paramModelParentMenu.Txtmenudisplay + "</p>\r\n </a>\r\n </li>";
+            paramHtmlMenu += "<li class=\"nav-item\">\r\n <a href=\"" + paramModelParentMenu.Txturl + "\" class=\"nav-link\">\r\n <i class=\"far fa-circle nav-icon\"></i>\r\n <p>" + paramModelParentMenu.Txtmenudisplay ;
             if (paramAllMenu.Where(x => x.Intparentmenuid == paramModelParentMenu.Intmenuid).Count() > 0)
             {
                 //KALAU SUDAH MASUK DISINI JELAS ADA CHILD NYA DI MENU TSB.
                 paramHtmlMenu += " <i class=\"right fas fa-angle-left\"></i>\r\n</p>\r\n</a>";
                 foreach (var childMenu in paramAllMenu.Where(x => x.Intparentmenuid == paramModelParentMenu.Intmenuid).ToList())
                 {
-                    paramHtmlMenu += generatedDynamicChildMenu(paramHtmlMenu, paramAllMenu, childMenu);
+                    paramHtmlMenu = await generatedDynamicChildMenu(paramHtmlMenu, paramAllMenu, childMenu);
                     paramHtmlMenu += " </ul>\r\n </li>";
                 }
             }
@@ -155,6 +145,11 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
             } 
 
             return paramHtmlMenu;
+        }
+
+        public Task<cstmResultModelDataTable> getWithDataTable(cstmFilterDataTable paramModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

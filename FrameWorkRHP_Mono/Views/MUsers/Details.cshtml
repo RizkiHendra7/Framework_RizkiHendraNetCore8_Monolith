@@ -1,1 +1,56 @@
-﻿ 
+﻿@model FrameWorkRHP_Mono.Core.Models.EF.Muser
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="inputName">User Name</label>
+                                @Html.TextBoxFor(x => x.Txtusername, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">Full Name</label>
+                                @Html.TextBoxFor(x => x.Txtfullname, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">Password</label>
+                                @Html.PasswordFor(x => x.Txtpassword, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <label for="inputName">Active</label>
+                                @Html.CheckBoxFor(x => x.Bitactive.Value, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="~/MUsers/index" class="btn btn-secondary">Cancel</a>
+                    <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                </div>
+            </div>
+        </section>
+    </div>
+
+}
+
+
+<script src="~/jsform/master/muser/musersdetail.js"></script>

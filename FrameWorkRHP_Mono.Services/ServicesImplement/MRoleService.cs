@@ -1,6 +1,7 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.Custom;
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Infrastructure.UOW;
+using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface; 
 
 namespace FrameWorkRHP_Mono.Services.ServicesImplement
@@ -65,6 +66,11 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
             return MRoleData;
         }
 
+        public Task<cstmResultModelDataTable> getWithDataTable(cstmFilterDataTable paramModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> UpdateData(Mrole ParamModels)
         {
             try
@@ -81,13 +87,6 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
                 throw;
             }
         }
-
-        public async Task<cstmResultModelDataTable> getDataPaging(cstmFilterDataTable paramModel)
-        {
-            var query = "SELECT\r\n   *, COUNT(*) OVER () AS TOTALDATA\r\nFROM\r\n  mrole m \r\nORDER BY\r\n   introleid \r\nOFFSET 2 \r\nLIMIT 1;";
-            var result = await _unitOfWork.MUsers.getWithDataTable(query, paramModel.draw);
-            return result;
-        }
-
+         
     }
 }

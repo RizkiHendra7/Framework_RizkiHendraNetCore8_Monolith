@@ -10,6 +10,7 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
         GenericRepository<Mrole> MRoles { get; }
         GenericRepository<MMenu> MMenus { get; }
         GenericRepository<MRoleXMenu> MRoleXMenus { get; }
+        IGenericDataTables genericDataTables { get; }
         void CreateTransaction();
         void Commit();
         void Rollback();

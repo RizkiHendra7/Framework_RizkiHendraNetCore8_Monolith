@@ -25,13 +25,21 @@
             },
             "columns": [
                 { "data": "txtusername" },
-                { "data": "txtfullname" },
-                { "data": "bitactive" }, 
+                { "data": "txtfullname" }, 
                 {
+                    "data": "bitactive",
+                    "className": "dt-center", 
                     render: function (data, type, full) { 
-                        return '<a href="/MUsers/Detail?id=' + encodeURIComponent(full.intuserid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
+                        return data ? '<input type="checkbox" checked disabled>' : '<input type="checkbox" disabled>';
+                    }
+                }, 
+                {
+                    "data": "intuserid",
+                    "className": "dt-center", 
+                    render: function (data, type, full) { 
+                        return '<a href="/MUsers/Details?id=' + encodeURIComponent(data) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
                     }
                 }
-            ]
+            ] 
         });
     } 

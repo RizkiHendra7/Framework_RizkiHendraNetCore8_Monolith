@@ -1,5 +1,7 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.Custom;
 using FrameWorkRHP_Mono.Core.Models.EF;
+using FrameWorkRHP_Mono.Core.Models.ViewModels;
+using FrameWorkRHP_Mono.Infrastructure.Repository;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,21 +14,19 @@ namespace FrameWorkRHP_Mono.Controllers.Master
        
 
 
-        public readonly IGenericService<Muser> _MUserService; 
+        public readonly IGenericService<Muser> _MUserService;  
         public MUsersController(IGenericService<Muser> MUserService)
         {
-            _MUserService = MUserService;
+            _MUserService = MUserService; 
         }
 
-
-        [HttpGet]
+         
         public IActionResult Index()
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult Details()
+         
+        public IActionResult Details(string id)
         {
             return View();
         }
@@ -37,7 +37,8 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                var result = await _MUserService.getDataPaging(param);
+                //var result = new cstmResultModelDataTable();
+                var result = await _MUserService.getWithDataTable(param);
                 return Json(result);
             }
             catch (Exception ex)
