@@ -1,32 +1,26 @@
-using FrameWorkRHP_Mono.Data;
-using FrameWorkRHP_Mono.Infrastructure.Context;
-using FrameWorkRHP_Mono.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using FrameWorkRHP_Mono.Models;
+using FrameWorkRHP_Mono.Services; 
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("eProcurementDB") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-//builder.Services.AddDbContext<AppsDbContext>(options =>
-//                   options.UseNpgsql(connectionString));
-
+ 
 /*Add Custom Additional*/
 builder.Services.AddDependencyInjectionServices(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));  // auto mapper 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true); // agar timestamp postgre bisa di input sesuai format
+
+/*End Custom Additional*/
+
 // Add services to the container.
-builder.Services.AddControllersWithViews(); 
-builder.Services.AddRazorPages();
-//End Custom Additional
+builder.Services.AddRazorPages(); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddControllersWithViews();
+
+
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddControllersWithViews();
+//    .AddEntityFrameworkStores<ApplicationDbContext>(); 
 
 var app = builder.Build();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -39,13 +33,20 @@ else
     app.UseHsts();
 }
 
+
+
+// === CUSTOM ADDITIONAL ===
+
+
+// === END CUSTOM ADDITIONAL
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
-
+ 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,4 +1,6 @@
-﻿using FrameWorkRHP_Mono.Core.Models.Custom;
+﻿using AutoMapper;
+using FrameWorkRHP_Mono.Core.Models.Custom;
+using FrameWorkRHP_Mono.Core.Models.DTO;
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Core.Models.ViewModels;
 using FrameWorkRHP_Mono.Infrastructure.Repository;
@@ -11,14 +13,13 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 {
     //[Authorize]
     public class MUsersController : Controller
-    {
-       
-
-
-        public readonly IGenericService<Muser> _MUserService;  
-        public MUsersController(IGenericService<Muser> MUserService)
+    { 
+        private readonly IMapper _Mapper;
+        private readonly IGenericService<Muser> _MUserService;  
+        public MUsersController(IGenericService<Muser> MUserService, IMapper Mapper)
         {
-            _MUserService = MUserService; 
+            _MUserService = MUserService;
+            _Mapper = Mapper; 
         }
 
          
@@ -43,10 +44,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 return Json(result);
             }
             catch (Exception ex)
-            {
-                //Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
-                //return Content(ex.Message);
-
+            { 
                 cstmResultModelDataTable result = new cstmResultModelDataTable();
                 result.errorMessage = ex.Message;
                 result.recordsTotal = 0;
@@ -64,10 +62,10 @@ namespace FrameWorkRHP_Mono.Controllers.Master
             try
             {
                 var MUser = await _MUserService.GetDataById(ParamUserId);
-
                 if (MUser != null)
                 {
-                    return Ok(MUser);
+                    DTOMusers resultValue = _Mapper.Map<DTOMusers>(MUser);
+                    return Ok(resultValue);
                 }
                 else
                 {
@@ -82,11 +80,12 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(Muser ParamMUserModel)
+        public async Task<IActionResult> Create(DTOMusers ParamMUserModel)
         {
             try
             {
-                var isMUserCreated = await _MUserService.CreateData(ParamMUserModel);
+                Muser paramData = _Mapper.Map<Muser>(ParamMUserModel);
+                var isMUserCreated = await _MUserService.CreateData(paramData);
 
                 if (isMUserCreated)
                 {

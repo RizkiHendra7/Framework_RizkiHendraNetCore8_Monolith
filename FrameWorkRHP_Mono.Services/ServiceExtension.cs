@@ -1,7 +1,5 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.EF;
-using FrameWorkRHP_Mono.Core.Models.ViewModels;
 using FrameWorkRHP_Mono.Infrastructure.Context;
-using FrameWorkRHP_Mono.Infrastructure.Repository;
 using FrameWorkRHP_Mono.Infrastructure.UOW;
 using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
@@ -29,7 +27,7 @@ namespace FrameWorkRHP_Mono.Services
             services.AddDbContext<AppsDbContext>(options =>
                     options.UseNpgsql(configuration.GetConnectionString("AppsDbContext")));
              
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); 
             
             //ROLE
             services.AddScoped<IGenericService<Mrole>, MRoleService>(); 
