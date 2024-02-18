@@ -18,8 +18,27 @@ namespace FrameWorkRHP_Mono.Core.Models.Custom
         public int length { get; set; }
         public searchData search { get; set; }
         public List<orderData> order { get; set; }  
-    }
 
+        public string paggingQuery
+        {
+            get
+            { 
+                //return " where no >= " + (start + 1).ToString() + " and no <= " + (start + length).ToString() + "";                     
+                return " \r\n OFFSET " + start.ToString() + " \r\nLIMIT " + (start + length).ToString() + "";                     
+            }
+            set { }
+        }
+
+        public string getPaggingQuery
+        {
+            get
+            {
+                return "\r\n ,row_number() OVER () AS serialNumber, COUNT(*) OVER () AS TOTALDATA ";
+            }
+            set { }
+        } 
+    }
+     
     public class columnsData
     {
         public String data { get; set; }
@@ -31,14 +50,14 @@ namespace FrameWorkRHP_Mono.Core.Models.Custom
 
     public class searchData
     {
-        public String value { get; set; }
-        public String regex { get; set; }
+        public string value { get; set; }
+        public string regex { get; set; }
     }
 
     public class orderData
     {
         public int column { get; set; }
         public String dir { get; set; }
-    }
-     
+    } 
+
 }

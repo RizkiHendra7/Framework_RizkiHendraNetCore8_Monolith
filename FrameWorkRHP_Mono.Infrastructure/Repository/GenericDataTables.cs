@@ -1,15 +1,10 @@
 ﻿using FrameWorkRHP_Mono.Core.Models.Custom;
 using FrameWorkRHP_Mono.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Data.Common;
 
 namespace FrameWorkRHP_Mono.Infrastructure.Repository
 {
@@ -20,18 +15,29 @@ namespace FrameWorkRHP_Mono.Infrastructure.Repository
         {
             _context = context; 
         }
-        public async Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery, int ParamDraw)
+        public async Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery,string ParamFilter, int ParamDraw)
         { 
             var result = new cstmResultModelDataTable();
             var listData = new List<ModelParam>();
             double doubleTotalData = 0;
-
             try
             {
                 using (var command = _context.Database.GetDbConnection().CreateCommand())
                 {
                     command.CommandText = ParamQuery;
-                    command.CommandType = CommandType.Text;
+                    //command.CommandType = CommandType.Text;
+
+                    if (!string.IsNullOrEmpty(ParamFilter))
+                    {
+                        ParamFilter = ParamFilter.ToUpper();
+                        DbParameter dbParam = command.CreateParameter();
+                        dbParam.ParameterName = "@paramFilter";
+                        dbParam.DbType = System.Data.DbType.String;
+                        dbParam.Direction = ParameterDirection.Input;
+                        dbParam.Value = "%"+ParamFilter+"%";
+                        command.Parameters.Add(dbParam);
+                    }
+                  
 
                     _context.Database.OpenConnection();
 

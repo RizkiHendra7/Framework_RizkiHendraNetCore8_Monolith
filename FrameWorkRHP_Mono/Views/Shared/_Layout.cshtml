@@ -21,6 +21,13 @@
     <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+     <!-- SweetAlert2 -->
+    <link href="~/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
+
+      <!-- Toastr -->
+    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/plugins/toastr/toastr.css" rel="stylesheet" />
 
     <!-- ./wrapper -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
@@ -52,12 +59,19 @@
     <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    
+      <!-- Toastr -->
+    <script src="~/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/plugins/sweetalert2/sweetalert2.js"></script>
 
-
+      <!-- Toastr -->
+    <script src="~/plugins/toastr/toastr.min.js"></script>
     <script src="~/plugins/moment/moment.min.js"></script>
-    @* <script src="~/dist/js/demo.js"></script>  *@
-    @* <script src="~/dist/js/pages/dashboard.js"></script> *@
-
+     
+    @* CUSTOM  *@
+    <script src="~/jsform/clsglobaljs.js"></script>
     </head>
 
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -71,24 +85,7 @@
         @Html.Partial("_Header")
         @Html.Partial("_SideBar")
 
-        <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0">Dashboard</h1>
-                            </div><!-- /.col -->
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">Dashboard v1</li>
-                                </ol>
-                            </div><!-- /.col -->
-                        </div><!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                </div>
-                <!-- /.content-header -->
+        <div class="content-wrapper"> 
                 <!-- Main content -->
                 <section class="content">
                     <div class="container-fluid">
@@ -105,4 +102,13 @@
             </aside> 
         </div> 
     </body>
+
+
+<style>
+    .dataTables_filter {
+        display: none;
+    }
+</style>
+
+
 </html>

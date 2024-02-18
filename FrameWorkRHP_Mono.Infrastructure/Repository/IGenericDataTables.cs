@@ -9,6 +9,6 @@ namespace FrameWorkRHP_Mono.Infrastructure.Repository
 {
     public interface IGenericDataTables 
     {
-          Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery, int ParamDraw);
+          Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery, string ParamFilter, int ParamDraw);
     }
 }

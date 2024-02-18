@@ -1,6 +1,6 @@
 ﻿@model FrameWorkRHP_Mono.Core.Models.EF.Muser
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(new {@autocomplete = "off", @id = "frmDetail" }))
 {
     @Html.AntiForgeryToken()
 
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-12">
                     <a href="~/MUsers/index" class="btn btn-secondary">Cancel</a>
-                    <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                    <input id="btnSave" type="button" value="Create new Project" class="btn btn-success float-right">
                 </div>
             </div>
         </section>

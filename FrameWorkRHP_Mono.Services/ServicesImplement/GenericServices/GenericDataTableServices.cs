@@ -16,10 +16,10 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement.GenericServices
         {
             _unitOfWork = unitOfWork;
         }
-
-        public Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery, int ParamDraw)
+         
+        public Task<cstmResultModelDataTable> getWithDataTable<ModelParam>(string ParamQuery, string ParamFilter, int ParamDraw)
         {
-          return _unitOfWork.genericDataTables.getWithDataTable<ModelParam>(ParamQuery, ParamDraw);
+            return _unitOfWork.genericDataTables.getWithDataTable<ModelParam>(ParamQuery, ParamFilter, ParamDraw);
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FrameWorkRHP_Mono.Core.CustomAttribute;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FrameWorkRHP_Mono.Core.Models.Custom
 {
     public class cstmDataTablesPropModel
     {
         [NotMapped]
-        public string txtId { get; set; }   
-        public double TotalData { get; set; } 
+        public string txtId { get; set; }
+
+        [NotIncludeFilteredQuery]
+        public double TotalData { get; set; }
+
+        [NotIncludeFilteredQuery]
+        public double serialNumber { get; set; } 
     }
 }

@@ -5,6 +5,7 @@ using FrameWorkRHP_Mono.Infrastructure.Repository;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FrameWorkRHP_Mono.Controllers.Master
 {
@@ -43,6 +44,9 @@ namespace FrameWorkRHP_Mono.Controllers.Master
             }
             catch (Exception ex)
             {
+                //Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
+                //return Content(ex.Message);
+
                 cstmResultModelDataTable result = new cstmResultModelDataTable();
                 result.errorMessage = ex.Message;
                 result.recordsTotal = 0;
@@ -53,12 +57,13 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 
         }
 
-        [HttpGet("{paramIntRoleId}")]
-        public async Task<IActionResult> GetById(int paramIntRoleId)
+        [HttpGet]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> GetById(int ParamUserId)
         {
             try
             {
-                var MUser = await _MUserService.GetDataById(paramIntRoleId);
+                var MUser = await _MUserService.GetDataById(ParamUserId);
 
                 if (MUser != null)
                 {
@@ -76,11 +81,12 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Muser paramMUserModel)
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Create(Muser ParamMUserModel)
         {
             try
             {
-                var isMUserCreated = await _MUserService.CreateData(paramMUserModel);
+                var isMUserCreated = await _MUserService.CreateData(ParamMUserModel);
 
                 if (isMUserCreated)
                 {
@@ -98,13 +104,14 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(Muser paramMUserModel)
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Update(Muser ParamMUserModel)
         {
             try
             {
-                if (paramMUserModel != null)
+                if (ParamMUserModel != null)
                 {
-                    var isMUserCreated = await _MUserService.UpdateData(paramMUserModel);
+                    var isMUserCreated = await _MUserService.UpdateData(ParamMUserModel);
                     if (isMUserCreated)
                     {
                         return Ok(isMUserCreated);
@@ -121,31 +128,6 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpDelete("{paramIntRoleId}")]
-        public async Task<IActionResult> Delete(int paramIntRoleId)
-        {
-            try
-            {
-                var isMUserCreated = await _MUserService.DeleteData(paramIntRoleId);
-
-                if (isMUserCreated)
-                {
-                    return Ok(isMUserCreated);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-
 
     }
 }
