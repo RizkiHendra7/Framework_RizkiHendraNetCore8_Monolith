@@ -79,12 +79,12 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
+        //[AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Create(DTOMusers ParamMUserModel)
         {
             try
             {
-                Muser paramData = _Mapper.Map<Muser>(ParamMUserModel);
+                Muser paramData = _Mapper.Map<Muser>(ParamMUserModel); 
                 var isMUserCreated = await _MUserService.CreateData(paramData);
 
                 if (isMUserCreated)
@@ -103,14 +103,15 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         }
 
         [HttpPut]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(Muser ParamMUserModel)
+        //[AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Update(DTOMusers ParamMUserModel)
         {
             try
             {
                 if (ParamMUserModel != null)
                 {
-                    var isMUserCreated = await _MUserService.UpdateData(ParamMUserModel);
+                    Muser paramData = _Mapper.Map<Muser>(ParamMUserModel);
+                    var isMUserCreated = await _MUserService.UpdateData(paramData);
                     if (isMUserCreated)
                     {
                         return Ok(isMUserCreated);

@@ -25,7 +25,7 @@ function getDataDetail() {
     });
 }
 
-function saveData() {
+function saveData() { 
     var wording = "Save";
     globalGetConfirmationSwal(wording + " this data?", function (result) {
         if (result.isConfirmed) {
@@ -34,8 +34,8 @@ function saveData() {
                     type: "POST",
                     url: "/MUsers/Create",
                     data: {
-                        ParamMUserModel: $('#frmDetail').serialize(),
-                        __RequestVerificationToken: $('#frmDetail input[name=__RequestVerificationToken]').val()
+                        ParamMUserModel: data
+                        //__RequestVerificationToken: $('#frmDetail input[name=__RequestVerificationToken]').val()
                     },
                     datatype: "json",
                     success: function (result) {

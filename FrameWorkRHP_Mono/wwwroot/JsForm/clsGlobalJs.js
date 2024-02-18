@@ -1,4 +1,14 @@
-﻿ 
+﻿// === BLOCK UI ===
+$(document).ajaxStart(function () {
+    $.blockUI({ message: '<h1><img src="~/plugins/blockui/busy.gif" /> Just a moment...</h1>' });
+});
+
+
+$(document).ajaxStop($.unblockUI); 
+// === END BLOCK UI ===
+
+
+ 
 //  === TOAST === 
 // UNTUK ALERT MESSAGE
 var Toast = Swal.mixin({
