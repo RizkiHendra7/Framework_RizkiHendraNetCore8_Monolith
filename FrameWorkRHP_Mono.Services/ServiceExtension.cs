@@ -4,6 +4,8 @@ using FrameWorkRHP_Mono.Infrastructure.UOW;
 using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using FrameWorkRHP_Mono.Services.ServicesImplement;
+using FrameWorkRHP_Mono.Services.ServicesImplement.GenericServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +29,15 @@ namespace FrameWorkRHP_Mono.Services
             services.AddDbContext<AppsDbContext>(options =>
                     options.UseNpgsql(configuration.GetConnectionString("AppsDbContext")));
              
-            services.AddScoped<IUnitOfWork, UnitOfWork>(); 
-            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //SESSION
+            services.AddHttpContextAccessor(); //inject HttpContext ke interface untuk kebutuhan setting session 
+            services.AddScoped<ISessionService, SessionService>(); //inject HttpContext ke interface untuk kebutuhan setting session 
+
+            //LOGIN
+            services.AddScoped<ILogin, LoginServices>();
+
             //ROLE
             services.AddScoped<IGenericService<Mrole>, MRoleService>(); 
             

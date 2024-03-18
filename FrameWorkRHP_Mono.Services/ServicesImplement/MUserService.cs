@@ -83,7 +83,7 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
             var query = "SELECT\r\n   * " + paramModel.getPaggingQuery+
                          " FROM\r\n  muser  "+ searchQuery+
                          " ORDER BY\r\n   intuserid " +paramModel.paggingQuery;
-            var result = await _unitOfWork.genericDataTables.getWithDataTable<VwUser.indexDataTable>(query, paramModel.search.value, paramModel.draw);
+            var result = await _unitOfWork.GenericDataTables.getWithDataTable<VwUser.indexDataTable>(query, paramModel.search.value, paramModel.draw);
             return result;
         }
          

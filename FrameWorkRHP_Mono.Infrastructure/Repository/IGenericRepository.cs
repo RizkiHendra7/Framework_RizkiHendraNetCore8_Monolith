@@ -2,17 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FrameWorkRHP_Mono.Infrastructure.Repository
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(object ParamId);
-        Task InsertAsync(T ParamModel);
-        Task UpdateAsync(T ParamModel);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetListByExpressionAsync(
+          IEnumerable<Expression<Func<TEntity, bool>>> filter = null,
+          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+          string includeProperties = "");
+        Task<TEntity?> GetByIdAsync(object ParamId);
+        Task<TEntity> GetByExpressionAsync(
+          IEnumerable<Expression<Func<TEntity, bool>>> filter = null,
+          Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+          string includeProperties = ""); 
+        Task InsertAsync(TEntity ParamModel);
+        Task UpdateAsync(TEntity ParamModel);
         Task DeleteAsync(object ParamId);
         Task SaveAsync();
     }

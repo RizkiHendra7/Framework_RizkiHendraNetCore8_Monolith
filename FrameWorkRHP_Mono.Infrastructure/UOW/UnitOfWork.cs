@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Infrastructure.Context;
+using FrameWorkRHP_Mono.Core.CommonFunction;
 
 
 namespace FrameWorkRHP_Mono.Infrastructure.UOW
@@ -21,7 +22,7 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
         public GenericRepository<Mrole> MRoles { get; private set; }
         public GenericRepository<MMenu> MMenus { get; private set; }
         public GenericRepository<MRoleXMenu> MRoleXMenus { get; private set; } 
-        public IGenericDataTables genericDataTables { get; private set; }
+        public IGenericDataTables GenericDataTables { get; private set; }  
 
         public UnitOfWork(AppsDbContext _context)
         {
@@ -30,7 +31,7 @@ namespace FrameWorkRHP_Mono.Infrastructure.UOW
             MRoles = new GenericRepository<Mrole>(Context);
             MMenus = new GenericRepository<MMenu>(Context);
             MRoleXMenus = new GenericRepository<MRoleXMenu>(Context);
-            genericDataTables = new GenericDataTables(Context);
+            GenericDataTables = new GenericDataTables(Context); 
         }
 
         public void CreateTransaction()
