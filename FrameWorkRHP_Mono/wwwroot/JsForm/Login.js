@@ -14,7 +14,7 @@
         datatype: "json",
         success: function (result) {
             if (result) { 
-                window.location.href = "/Home";
+                window.location.href = "/LandingPage";
 
             } else {
                 globalShowAlertInfo("The password that you've entered is incorrect.")

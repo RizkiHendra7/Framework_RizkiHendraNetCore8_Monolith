@@ -3,12 +3,12 @@ using FrameWorkRHP_Mono.Core.Models.Custom;
 using FrameWorkRHP_Mono.Core.Models.DTO;
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Services.Interfaces;
-using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
-using FrameWorkRHP_Mono.Services.ServicesImplement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrameWorkRHP_Mono.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly IMapper _Mapper;
