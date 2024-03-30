@@ -11,7 +11,9 @@ using System.Net;
 
 namespace FrameWorkRHP_Mono.Controllers.Master
 {
-    //[Authorize]
+
+    [Authorize]
+    //[CustomAuthorize]
     public class MUsersController : Controller
     { 
         private readonly IMapper _Mapper;

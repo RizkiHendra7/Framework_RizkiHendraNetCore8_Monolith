@@ -1,12 +1,9 @@
-using FrameWorkRHP_Mono.Core.CommonFunction;
-using FrameWorkRHP_Mono.Core.Models.EF;
-using FrameWorkRHP_Mono.Models;
-using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace FrameWorkRHP_Mono.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {    
 

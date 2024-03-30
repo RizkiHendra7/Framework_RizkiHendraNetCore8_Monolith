@@ -2,10 +2,12 @@
 using FrameWorkRHP_Mono.Core.Models.EF;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using FrameWorkRHP_Mono.Services.ServicesImplement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrameWorkRHP_Mono.Controllers.Master
 {
+    [Authorize]
     public class MMenuController : Controller
     {
         #region constructor

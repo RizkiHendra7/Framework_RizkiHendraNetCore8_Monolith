@@ -5,34 +5,32 @@ using FrameWorkRHP_Mono.Infrastructure.UOW;
 using FrameWorkRHP_Mono.Services.Interfaces;
 using FrameWorkRHP_Mono.Services.Interfaces.GenericInterface;
 using FrameWorkRHP_Mono.Services.ServicesImplement.GenericServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims; 
 
 namespace FrameWorkRHP_Mono.Services.ServicesImplement
 {
     public class LoginServices : ILogin
     {
         public IUnitOfWork _unitOfWork;
-        public ISessionService _httpContextServices;
-        public LoginServices(IUnitOfWork unitOfWork,ISessionService httpContextServices)
+        public ISessionService _sessionService;
+        public IHttpContextAccessor _httpContextAccessor;
+        public LoginServices(IUnitOfWork unitOfWork,ISessionService sessionService, IHttpContextAccessor httpContextAccessor)
         {
             _unitOfWork = unitOfWork;
-            _httpContextServices = httpContextServices;
+            _sessionService = sessionService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<bool> LoginAsync(Muser paramData)
         {
             try
             {
-                var result = true;
-
+                var result = true; 
                 var filters = new List<Expression<Func<Muser, bool>>>();
                 filters.Add(x => x.Txtusername.ToUpper().Equals(paramData.Txtusername.ToUpper()));
                 filters.Add(x => x.Txtpassword.ToUpper().Equals(paramData.Txtpassword.ToUpper()));
@@ -50,12 +48,13 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
                     dtSession.userDt = MUserData;
                     dtSession.roleLt = ltRole;
 
-                   string token =  await new clsGlobalJWT().GeneratedJWTToken(clsGlobalConstant.SessionKey, dtSession);
+                   string token =  await new clsGlobalJWT().GeneratedJWTToken(clsGlobalConstant.SessionNameKey, dtSession);
                    string jsonMuser = JsonConvert.SerializeObject(MUserData);
-                   _httpContextServices.setSession(clsGlobalConstant.SessionKey, token);
+                    #region "JIKA MENGGUNAKAN SESSION"
+                    _sessionService.SignInAsync(token, dtSession);
+                    #endregion 
                 }
 
-                var dicobamauEggPakeStatic = SessionService.dtLogin;
 
                 return result;
             }

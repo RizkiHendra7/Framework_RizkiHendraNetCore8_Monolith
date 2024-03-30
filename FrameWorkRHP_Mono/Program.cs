@@ -1,6 +1,7 @@
 using FrameWorkRHP_Mono.Core.CommonFunction;
 using FrameWorkRHP_Mono.Models;
-using FrameWorkRHP_Mono.Services; 
+using FrameWorkRHP_Mono.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,16 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; //untuk menjaga dari xss jika di akses hanya dari HTTP, kalau udah https comment aja
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+        options =>
+        {
+            options.LoginPath = new PathString("/Login");
+            options.AccessDeniedPath = new PathString("/denied");
+            options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        });
+
 /*********************End Kebutuhan Session*************************/
 
 
@@ -61,6 +72,7 @@ app.UseStaticFiles();
 app.UseRouting(); 
 app.UseSession();
 app.UseAuthorization();
+
  
 app.MapControllerRoute(
     name: "default",

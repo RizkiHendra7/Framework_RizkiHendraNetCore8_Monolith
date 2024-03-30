@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrameWorkRHP_Mono.Core.Models.Custom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace FrameWorkRHP_Mono.Services.Interfaces.GenericInterface
     {
           void setSession(string paramKey, string paramData);
           void changeSession(string paramKey, string paramData);
-          Task<TEntity> getSession<TEntity>(string paramKey) where TEntity : class;
+          void SignInAsync(string paramToken, cstmSessionModel paramUserDt);
+          void SignOutAsync();
+          Task<TEntity> getSession<TEntity>(string paramKey) where TEntity : class; 
     }
 }
