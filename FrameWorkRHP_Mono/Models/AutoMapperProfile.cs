@@ -10,6 +10,9 @@ namespace FrameWorkRHP_Mono.Models
         {
             CreateMap<Muser, DTOMusers>();
             CreateMap<DTOMusers, Muser>();
+
+            CreateMap<MMenu, DTOMMenus>();
+            CreateMap<DTOMMenus, MMenu>();
         }
     }
 }

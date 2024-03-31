@@ -11,13 +11,13 @@ function renderDataTable() {
         "responsive": true,
         "serverSide": true,
         "ajax": {
-            url: '/MMenu/GetDataIndex',
+            url: '/MMenus/GetDataIndex',
             type: "POST",
             dataSrc: function (json) {
                 if (json.errorMessage == null) {
                     return json.data;
                 } else {
-                    //swal("Validation Message", json.errorMessage, "error");
+                    globalShowAlertError(json.errorMessage);
                     return json.data = [];
                 }
 
@@ -25,14 +25,21 @@ function renderDataTable() {
         },
         "columns": [
             { "data": "txtmenuname" },
-            { "data": "txtparentname" },
+            { "data": "txtParentMenu" },
             { "data": "txtmenudisplay" },
-            { "data": "Txturl" },
-            { "data": "txtmenudisplay" },
-            { "data": "txtstatus" },
+            { "data": "txturl" }, 
             {
+                "data": "bitactive",
+                "className": "dt-center",
                 render: function (data, type, full) {
-                    return '<a href="/MMenu/Detail?id=' + encodeURIComponent(full.Txtmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
+                    return data ? '<input type="checkbox" checked disabled>' : '<input type="checkbox" disabled>';
+                }
+            }, 
+            {
+                "data": "intmenuid",
+                "className": "dt-center", 
+                render: function (data, type, full) {
+                    return '<a href="/MMenus/Detail?id=' + encodeURIComponent(full.intmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
                 }
             }
         ]

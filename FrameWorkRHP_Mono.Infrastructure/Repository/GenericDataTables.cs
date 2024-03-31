@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
 using System.Data.Common;
+using FrameWorkRHP_Mono.Core.CustomAttribute;
 
 namespace FrameWorkRHP_Mono.Infrastructure.Repository
 {

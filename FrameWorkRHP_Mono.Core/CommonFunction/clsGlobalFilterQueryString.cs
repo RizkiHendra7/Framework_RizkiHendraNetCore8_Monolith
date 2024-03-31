@@ -39,22 +39,33 @@ namespace FrameWorkRHP_Mono.Core.CommonFunction
             {
                 if (!Attribute.IsDefined(prop, typeof(NotMappedAttribute)) && !Attribute.IsDefined(prop, typeof(NotIncludeFilteredQuery)) )
                 {
-                    if (
-                        (!isNumber && (prop.PropertyType == typeof(float) || prop.PropertyType == typeof(double) || prop.PropertyType == typeof(decimal) ||
-                                         prop.PropertyType == typeof(int) || prop.PropertyType == typeof(byte) || prop.PropertyType == typeof(long) ||
-                                         prop.PropertyType == typeof(ulong) || prop.PropertyType == typeof(Nullable<float>) || prop.PropertyType == typeof(Nullable<double>) || prop.PropertyType == typeof(Nullable<decimal>) ||
-                                         prop.PropertyType == typeof(Nullable<int>) || prop.PropertyType == typeof(Nullable<byte>) || prop.PropertyType == typeof(Nullable<long>) ||
-                                         prop.PropertyType == typeof(Nullable<ulong>))
-                        ) 
-                        || (!isBooleans && (prop.PropertyType == typeof(Nullable<bool>) || prop.PropertyType == typeof(bool)))
-                            )
+                    if ((!isNumber && ( prop.PropertyType != typeof(float) &&
+                                        prop.PropertyType != typeof(double) &&
+                                        prop.PropertyType != typeof(decimal) &&
+                                        prop.PropertyType != typeof(int) &&
+                                        prop.PropertyType != typeof(byte) &&
+                                        prop.PropertyType != typeof(long) &&
+                                        prop.PropertyType != typeof(ulong) &&
+                                        prop.PropertyType != typeof(Nullable<float>) &&
+                                        prop.PropertyType != typeof(Nullable<double>) &&
+                                        prop.PropertyType != typeof(Nullable<decimal>) &&
+                                        prop.PropertyType != typeof(Nullable<int>) &&
+                                        prop.PropertyType != typeof(Nullable<byte>) &&
+                                        prop.PropertyType != typeof(Nullable<long>) &&
+                                        prop.PropertyType != typeof(Nullable<ulong>))
+                        ) || (!isBooleans && (  prop.PropertyType != typeof(bool) &&
+                                                prop.PropertyType != typeof(Nullable<bool>))))
                     {
                         //KALAU TIPE ANGKA DAN FILTER BERUPA NON ANGKA MAKA SKIP SAJA
                         //OR    TIPE BOOLEAN DAN FILTER BERUPA NON BOOLEAN 
                         continue;
                     }
-                    else if(prop.PropertyType == typeof(DateTimeOffset) || prop.PropertyType == typeof(DateOnly) || prop.PropertyType == typeof(DateTime)
-                            || prop.PropertyType == typeof(Nullable<DateTimeOffset>) || prop.PropertyType == typeof(Nullable<DateOnly>) || prop.PropertyType == typeof(Nullable<DateTime>))
+                    else if(prop.PropertyType == typeof(DateTimeOffset) || 
+                            prop.PropertyType == typeof(DateOnly) || 
+                            prop.PropertyType == typeof(DateTime) || 
+                            prop.PropertyType == typeof(Nullable<DateTimeOffset>) || 
+                            prop.PropertyType == typeof(Nullable<DateOnly>) ||
+                            prop.PropertyType == typeof(Nullable<DateTime>))
                     {
                         query = "TO_CHAR(" + prop.Name + " , 'YYYY/MM/DD HH12:MM:SS') LIKE @paramFilter \r\n";
                         result += string.IsNullOrEmpty(result) ? query : " OR " + query;
