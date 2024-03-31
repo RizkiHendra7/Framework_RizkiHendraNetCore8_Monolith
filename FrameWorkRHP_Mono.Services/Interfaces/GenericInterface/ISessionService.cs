@@ -13,6 +13,7 @@ namespace FrameWorkRHP_Mono.Services.Interfaces.GenericInterface
           void changeSession(string paramKey, string paramData);
           void SignInAsync(string paramToken, cstmSessionModel paramUserDt);
           void SignOutAsync();
+          Task<cstmSessionModel> dtLogin();
           Task<TEntity> getSession<TEntity>(string paramKey) where TEntity : class; 
     }
 }

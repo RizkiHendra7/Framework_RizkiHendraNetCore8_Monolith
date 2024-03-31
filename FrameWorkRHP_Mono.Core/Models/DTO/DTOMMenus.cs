@@ -10,9 +10,10 @@ namespace FrameWorkRHP_Mono.Core.Models.DTO
     {
         public string id { get; set; }
         public string idParent { get; set; }
-        public string Txtmenuname { get; set; }
-        public string Txtmenudisplay { get; set; }
-        public string Txtmenuicon { get; set; } 
-        public bool? Bitactive { get; set; }
+        public string txtMenuName { get; set; }
+        public string txtMenuDisplay { get; set; }
+        public string TxtUrl { get; set; } = null!;
+        public string txtMenuIcon { get; set; } 
+        public bool? bitActive { get; set; }
     }
 }

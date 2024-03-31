@@ -9,6 +9,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Linq.Expressions;
+using FrameWorkRHP_Mono.Services.ServicesImplement.GenericServices;
+using Microsoft.AspNetCore.Http;
 
 
 namespace FrameWorkRHP_Mono.Services.ServicesImplement
@@ -16,9 +18,12 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
     public class MMenuServices : IGenericService<MMenu>, IGeneratedMenu
     {
         public IUnitOfWork _unitOfWork;
-        public MMenuServices(IUnitOfWork unitOfWork)
+        public IHttpContextAccessor _httpContextAccessor;
+        public ISessionService _sessionServices;
+        public MMenuServices(IUnitOfWork unitOfWork, ISessionService sessionServices)
         {
             _unitOfWork = unitOfWork;
+            _sessionServices = sessionServices;
         }
 
         public async Task<bool> CreateData(MMenu ParamModels)
@@ -26,6 +31,9 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
             try
             {
                 _unitOfWork.CreateTransaction();
+                var dtUser = await _sessionServices.dtLogin();
+                ParamModels.Txtinsertedby = dtUser.userDt.Intuserid.ToString();
+                ParamModels.Dtinserted = DateTime.Now;
                 await _unitOfWork.MMenus.InsertAsync(ParamModels);
                 await _unitOfWork.Save();
                 _unitOfWork.Commit();

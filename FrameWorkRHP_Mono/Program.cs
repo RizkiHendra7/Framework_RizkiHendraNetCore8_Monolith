@@ -2,6 +2,7 @@ using FrameWorkRHP_Mono.Core.CommonFunction;
 using FrameWorkRHP_Mono.Models;
 using FrameWorkRHP_Mono.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDependencyInjectionServices(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));  // auto mapper 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true); // agar timestamp postgre bisa di input sesuai format 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
 /*********************End Custom Additional*************************/
 
 

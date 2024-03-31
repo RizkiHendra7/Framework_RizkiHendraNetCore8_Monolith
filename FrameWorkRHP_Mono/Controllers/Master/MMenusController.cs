@@ -66,8 +66,11 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 if (dtMenu != null)
                 {
                     DTOMMenus resultValue = _Mapper.Map<DTOMMenus>(dtMenu);
-                    resultValue.id = clsRijndael.Encrypt(dtMenu.Intmenuid.ToString());
-                    resultValue.idParent = clsRijndael.Encrypt(dtMenu.Intparentmenuid.ToString());
+                    if(dtMenu.Intmenuid > 0)
+                    { 
+                        resultValue.id = clsRijndael.Encrypt(dtMenu.Intmenuid.ToString());
+                        resultValue.idParent = clsRijndael.Encrypt(dtMenu.Intparentmenuid.ToString());
+                    }
                     return Ok(resultValue);
                 }
                 else
@@ -89,7 +92,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                List<DTOMMenus> resultValue = new List<DTOMMenus>();
+               List<DTOMMenus> resultValue = new List<DTOMMenus>();
                 var ltMenu = await _MMenuService.GetAllActiveData();
                 if (ltMenu.Count() > 0)
                 {
@@ -111,5 +114,55 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Create(DTOMMenus ParamDt)
+        {
+            try
+            {
+                MMenu paramData = _Mapper.Map<MMenu>(ParamDt);
+                var isMUserCreated = await _MMenuService.CreateData(paramData);
+
+                if (isMUserCreated)
+                {
+                    return Ok(isMUserCreated);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Update(DTOMMenus ParamDt)
+        {
+            try
+            {
+                MMenu paramData = _Mapper.Map<MMenu>(ParamDt);
+                var isMUserCreated = await _MMenuService.UpdateData(paramData);
+
+                if (isMUserCreated)
+                {
+                    return Ok(isMUserCreated);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

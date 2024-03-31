@@ -94,8 +94,35 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement.GenericServices
 
         }
 
+        public async Task<cstmSessionModel> dtLogin()
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(clsGlobalConstant.SessionSecretKey);
+                var token = _staticHttpContextAccessor.HttpContext.User.FindFirst(clsGlobalConstant.SessionNameKey)?.Value;
+                //var token = _staticHttpContextAccessor.HttpContext.Session.GetString(clsGlobalConstant.SessionNameKey); // jika pakai session
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                return JsonConvert.DeserializeObject<cstmSessionModel>((jwtToken.Claims.First(x => x.Type == clsGlobalConstant.SessionNameKey).Value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("There Something wrong while validation token => " + ex.Message);
+            };
+        }
+
         #region User Session Login   
-        public static cstmSessionModel dtLogin
+        public static cstmSessionModel testDtLogin
         {
             get
             {

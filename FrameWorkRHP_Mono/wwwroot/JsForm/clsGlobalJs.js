@@ -1,6 +1,7 @@
 ﻿// === BLOCK UI ===
 $(document).ajaxStart(function () {
-    $.blockUI({ message: '<h1><img src="~/plugins/blockui/busy.gif" /> Just a moment...</h1>' });
+
+    $.blockUI({ message: '<h1><img src="~/../../plugins/blockui/giphy.gif" /> Just a moment...</h1>' });
 });
 
 
@@ -84,6 +85,15 @@ function globalIsNullOrEmptyString(param) {
     return isNullOrEmpty;
 }
 
+function globalConvertFormSerializeToJson(paramString) {
+    var result = {};
+    paramString.split('&').forEach(function (keyValue) {
+        var parts = keyValue.split('=');
+        parts[0] = parts[0].replace(".Value", "");
+        result[parts[0]] = decodeURIComponent(parts[1].replace(/\+/g, ' '));
+    });
 
+    return result;
+}
 
 // === END GLOBAL FUNCTION

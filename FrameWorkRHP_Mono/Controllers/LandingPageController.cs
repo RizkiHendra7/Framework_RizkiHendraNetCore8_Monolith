@@ -10,7 +10,7 @@ namespace FrameWorkRHP_Mono.Controllers
     {
         public IActionResult Index()
         {
-            var dicobamauEggPakeStatic = SessionService.dtLogin;
+            var dicobamauEggPakeStatic = SessionService.testDtLogin;
             return View();
         }
     }
