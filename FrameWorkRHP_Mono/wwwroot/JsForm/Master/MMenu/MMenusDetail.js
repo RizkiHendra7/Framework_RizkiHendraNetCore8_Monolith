@@ -81,6 +81,9 @@ function renderParentMenu() {
 function saveData() {
     var wording = "Save";
     var dt = globalConvertFormSerializeToJson($("#frmDetail").serialize());
+    dt.idParent = $('#idParentMenu').val();
+    dt.bitActive = $("#bitActive_Value").val();
+    dt.id = dataModel.id;
 
     globalGetConfirmationSwal(wording + " this data?", function (result) {
         if (result.isConfirmed) {
@@ -95,7 +98,8 @@ function saveData() {
                     datatype: "json",
                     success: function (result) {
                         data = result.data;
-                        mappingDataIntoUI(result.data)
+                        window.location.href = "/MMenus/Index";
+                        //mappingDataIntoUI(result.data)
                     },
                     error: function (xhr, error, thrown) {
                         globalShowAlertError(xhr.responseText);
@@ -110,20 +114,25 @@ function saveData() {
 
 function updateData() {
     var wording = "Update";
+    var dt = globalConvertFormSerializeToJson($("#frmDetail").serialize());
+    dt.idParent = $('#idParentMenu').val();
+    dt.bitActive = $("#bitActive_Value").val();
+    dt.id = dataModel.id;
     globalGetConfirmationSwal(wording + " this data?", function (result) {
         if (result.isConfirmed) {
             if (validateData()) {
                 $.ajax({
                     type: "POST",
-                    url: "/MMenus/Create",
+                    url: "/MMenus/Update",
                     data: {
-                        ParamDt: $("#frmDetail").serialize(),
+                        ParamDt: dt,
                         __RequestVerificationToken: $('#frmDetail input[Name=__RequestVerificationToken]').val()
                     },
                     datatype: "json",
                     success: function (result) {
                         data = result.data;
-                        mappingDataIntoUI(result.data)
+                        window.location.href = "/MMenus/Index";
+                        //mappingDataIntoUI(result.data)
                     },
                     error: function (xhr, error, thrown) {
                         globalShowAlertError(xhr.responseText);
@@ -141,6 +150,7 @@ function updateData() {
 function mappingDataIntoUI(paramData) {
     $("#txtMenuName").val(paramData.txtMenuName);
     $("#txtMenuDisplay").val(paramData.txtMenuDisplay);
+    $("#TxtUrl").val(paramData.txtUrl);
     $("#txtMenuIcon").val(paramData.txtMenuIcon);
     $('#idParentMenu').val(paramData.idParent).trigger('change');
     document.getElementById("bitActive_Value").checked = paramData.bitActive;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrameWorkRHP_Mono.Core.Models.DTO
 {
-    public class DTORoles
+    public class DTOMRoles
     {
         public string id { get; set; }
         public string Txtrolename { get; set; } = null!;

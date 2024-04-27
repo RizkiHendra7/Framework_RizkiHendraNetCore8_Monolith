@@ -39,10 +39,13 @@ namespace FrameWorkRHP_Mono.Services
             services.AddScoped<ILogin, LoginServices>();
 
             //ROLE
-            services.AddScoped<IGenericService<Mrole>, MRoleService>(); 
+            services.AddScoped<IGenericService<Mrole>, MRoleServices>(); 
             
             //USER
-            services.AddScoped<IGenericService<Muser>, MUserService>(); 
+            services.AddScoped<IGenericService<Muser>, MUserServices>(); 
+            
+            //ROLE X MENU
+            services.AddScoped<IGenericService<MRoleXMenu>, MRoleXMenuServices>(); 
 
             //MENU
             services.AddScoped<IGenericService<MMenu>, MMenuServices>();

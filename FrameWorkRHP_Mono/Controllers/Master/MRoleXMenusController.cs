@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace FrameWorkRHP_Mono.Controllers.Master
 {
     [Authorize]
-    public class MMenusController : Controller
+    public class MRoleXMenusController : Controller
     {
         #region constructor
         private readonly IMapper _Mapper;
-        private readonly IGenericService<MMenu> _MMenuService;
-        public MMenusController(IGenericService<MMenu> MUserService, IMapper Mapper)
+        private readonly IGenericService<MRoleXMenu> _MRoleXMenuService;
+        public MRoleXMenusController(IGenericService<MRoleXMenu> MRoleXMenuService, IMapper Mapper)
         {
-            _MMenuService = MUserService;
+            _MRoleXMenuService = MRoleXMenuService;
             _Mapper = Mapper;
         }
         #endregion
@@ -39,7 +39,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                var result = await _MMenuService.getWithDataTable(param);
+                var result = await _MRoleXMenuService.getWithDataTable(param);
                 return Json(result);
             }
             catch (Exception ex)
@@ -50,8 +50,6 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 result.recordsFiltered = 0;
                 return Json(result);
             }
-
-
         }
 
         [HttpGet]
@@ -60,14 +58,15 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                var dtMenu = await _MMenuService.GetDataById(ParamUserId);
-                if (dtMenu != null)
+                var dtMenuXRole = await _MRoleXMenuService.GetDataById(ParamUserId);
+                if (dtMenuXRole != null)
                 {
-                    DTOMMenus resultValue = _Mapper.Map<DTOMMenus>(dtMenu);
-                    if(dtMenu.Intmenuid > 0)
-                    { 
-                        resultValue.id = clsRijndael.Encrypt(dtMenu.Intmenuid.ToString());
-                        resultValue.idParent = clsRijndael.Encrypt(dtMenu.Intparentmenuid.ToString());
+                    DTOMroleXMenu resultValue = _Mapper.Map<DTOMroleXMenu>(dtMenuXRole);
+                    if (dtMenuXRole.Intmenuid > 0)
+                    {
+                        resultValue.id = clsRijndael.Encrypt(dtMenuXRole.Intmrolexmenuid.ToString());
+                        resultValue.menuId = clsRijndael.Encrypt(dtMenuXRole.Intmenuid.ToString());
+                        resultValue.roleId = clsRijndael.Encrypt(dtMenuXRole.Introleid.ToString());
                     }
                     return Ok(resultValue);
                 }
@@ -88,20 +87,24 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-               List<DTOMMenus> resultValue = new List<DTOMMenus>();
-                var ltMenu = await _MMenuService.GetAllActiveData();
-                if (ltMenu.Count() > 0)
+                List<DTOMroleXMenu> resultValue = new List<DTOMroleXMenu>();
+                var ltMenuXRole = await _MRoleXMenuService.GetAllActiveData();
+                if (ltMenuXRole.Count() > 0)
                 {
-                    if (!string.IsNullOrEmpty(search)) ltMenu = ltMenu.Where(x => x.Txtmenuname.ToUpper().Contains( search.ToUpper())).ToList();
+                    if (!string.IsNullOrEmpty(search))
+                        ltMenuXRole = ltMenuXRole.Where(x => x.Intmenu.Txtmenuname.ToUpper().Contains(search.ToUpper()) || 
+                                                             x.Introle.Txtrolename.ToUpper().Contains(search.ToUpper())
+                                                             ).ToList();
 
-                    foreach (var item in ltMenu)
+                    foreach (var item in ltMenuXRole)
                     {
-                        var tempData = _Mapper.Map<DTOMMenus>(item);
-                        tempData.id = clsRijndael.Encrypt(item.Intmenuid.ToString());
-                        tempData.idParent = clsRijndael.Encrypt(item.Intparentmenuid.ToString());
+                        var tempData = _Mapper.Map<DTOMroleXMenu>(item); 
+                        tempData.id = clsRijndael.Encrypt(item.Intmrolexmenuid.ToString());
+                        tempData.menuId = clsRijndael.Encrypt(item.Intmenuid.ToString());
+                        tempData.roleId = clsRijndael.Encrypt(item.Introleid.ToString());
                         resultValue.Add(tempData);
                     }
-                  
+
                 }
                 return Ok(resultValue);
             }
@@ -113,13 +116,15 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(DTOMMenus ParamDt)
+        public async Task<IActionResult> Create(DTOMroleXMenu ParamDt)
         {
             try
             {
-                MMenu paramData = _Mapper.Map<MMenu>(ParamDt);
-                paramData.Intparentmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.idParent));
-                var isMUserCreated = await _MMenuService.CreateData(paramData);
+                MRoleXMenu paramData = _Mapper.Map<MRoleXMenu>(ParamDt);
+                paramData.Intmrolexmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.id));
+                paramData.Introleid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.roleId));
+                paramData.Intmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.menuId));
+                var isMUserCreated = await _MRoleXMenuService.CreateData(paramData);
 
                 if (isMUserCreated)
                 {
@@ -138,14 +143,15 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(DTOMMenus ParamDt)
+        public async Task<IActionResult> Update(DTOMroleXMenu ParamDt)
         {
             try
             {
-                MMenu paramData = _Mapper.Map<MMenu>(ParamDt);
-                paramData.Intparentmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.idParent));
-                paramData.Intmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.id));
-                var isMUserCreated = await _MMenuService.UpdateData(paramData);
+                MRoleXMenu paramData = _Mapper.Map<MRoleXMenu>(ParamDt);
+                paramData.Intmrolexmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.id));
+                paramData.Introleid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.roleId));
+                paramData.Intmenuid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.menuId));
+                var isMUserCreated = await _MRoleXMenuService.UpdateData(paramData);
 
                 if (isMUserCreated)
                 {
@@ -161,6 +167,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 return BadRequest(ex.Message);
             }
         }
+
 
     }
 }

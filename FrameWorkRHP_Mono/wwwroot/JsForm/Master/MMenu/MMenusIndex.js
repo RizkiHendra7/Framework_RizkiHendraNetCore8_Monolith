@@ -39,7 +39,7 @@ function renderDataTable() {
                 "data": "intmenuid",
                 "className": "dt-center", 
                 render: function (data, type, full) {
-                    return '<a href="/MMenus/Detail?id=' + encodeURIComponent(full.intmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
+                    return '<a href="/MMenus/Details?id=' + encodeURIComponent(full.intmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
                 }
             }
         ]

@@ -9,26 +9,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FrameWorkRHP_Mono.Controllers.Master
 {
-
-    [Authorize] 
-    public class MUsersController : Controller
+    [Authorize]
+    public class MRolesController : Controller
     {
         #region constructor
         private readonly IMapper _Mapper;
-        private readonly IGenericService<Muser> _MUserService;  
-        public MUsersController(IGenericService<Muser> MUserService, IMapper Mapper)
+        private readonly IGenericService<Mrole> _MroleService;
+        public MRolesController(IGenericService<Mrole> MUserService, IMapper Mapper)
         {
-            _MUserService = MUserService;
-            _Mapper = Mapper; 
+            _MroleService = MUserService;
+            _Mapper = Mapper;
         }
         #endregion
+
 
 
         public IActionResult Index()
         {
             return View();
         }
-         
+
         public IActionResult Details(string id)
         {
             return View();
@@ -39,12 +39,11 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                //var result = new cstmResultModelDataTable();
-                var result = await _MUserService.getWithDataTable(param);
+                var result = await _MroleService.getWithDataTable(param);
                 return Json(result);
             }
             catch (Exception ex)
-            { 
+            {
                 cstmResultModelDataTable result = new cstmResultModelDataTable();
                 result.errorMessage = ex.Message;
                 result.recordsTotal = 0;
@@ -61,13 +60,13 @@ namespace FrameWorkRHP_Mono.Controllers.Master
         {
             try
             {
-                var MUser = await _MUserService.GetDataById(ParamUserId);
-                if (MUser != null)
+                var result = await _MroleService.GetDataById(ParamUserId);
+                if (result != null)
                 {
-                    DTOMusers resultValue = _Mapper.Map<DTOMusers>(MUser);
-                    if (MUser.Intuserid > 0)
+                    DTOMRoles resultValue = _Mapper.Map<DTOMRoles>(result);
+                    if (result.Introleid > 0)
                     {
-                        resultValue.id = clsRijndael.Encrypt(MUser.Intuserid.ToString()); 
+                        resultValue.id = clsRijndael.Encrypt(result.Introleid.ToString()); 
                     }
                     return Ok(resultValue);
                 }
@@ -82,14 +81,43 @@ namespace FrameWorkRHP_Mono.Controllers.Master
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Create(DTOMusers ParamMUserModel)
+        public async Task<IActionResult> GetAllData(string search = "")
         {
             try
             {
-                Muser paramData = _Mapper.Map<Muser>(ParamMUserModel); 
-                var isMUserCreated = await _MUserService.CreateData(paramData);
+                List<DTOMRoles> resultValue = new List<DTOMRoles>();
+                var result = await _MroleService.GetAllActiveData();
+                if (result.Count() > 0)
+                {
+                    if (!string.IsNullOrEmpty(search)) result = result.Where(x => x.Txtrolename.ToUpper().Contains(search.ToUpper())).ToList();
+
+                    foreach (var item in result)
+                    {
+                        var tempData = _Mapper.Map<DTOMRoles>(item);
+                        tempData.id = clsRijndael.Encrypt(item.Introleid.ToString()); 
+                        resultValue.Add(tempData);
+                    }
+
+                }
+                return Ok(resultValue);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Create(DTOMRoles ParamDt)
+        {
+            try
+            {
+                Mrole paramData = _Mapper.Map<Mrole>(ParamDt);
+                paramData.Introleid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.id));
+                var isMUserCreated = await _MroleService.CreateData(paramData);
 
                 if (isMUserCreated)
                 {
@@ -108,20 +136,17 @@ namespace FrameWorkRHP_Mono.Controllers.Master
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(DTOMusers ParamMUserModel)
+        public async Task<IActionResult> Update(DTOMRoles ParamDt)
         {
             try
             {
-                if (ParamMUserModel != null)
+                Mrole paramData = _Mapper.Map<Mrole>(ParamDt);
+                paramData.Introleid = Convert.ToInt32(clsRijndael.Decrypt(ParamDt.id)); 
+                var isMUserCreated = await _MroleService.UpdateData(paramData);
+
+                if (isMUserCreated)
                 {
-                    Muser paramData = _Mapper.Map<Muser>(ParamMUserModel);
-                    paramData.Intuserid = Convert.ToInt32(clsRijndael.Decrypt(ParamMUserModel.id));
-                    var isMUserCreated = await _MUserService.UpdateData(paramData);
-                    if (isMUserCreated)
-                    {
-                        return Ok(isMUserCreated);
-                    }
-                    return BadRequest();
+                    return Ok(isMUserCreated);
                 }
                 else
                 {
@@ -133,6 +158,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
                 return BadRequest(ex.Message);
             }
         }
+
 
     }
 }

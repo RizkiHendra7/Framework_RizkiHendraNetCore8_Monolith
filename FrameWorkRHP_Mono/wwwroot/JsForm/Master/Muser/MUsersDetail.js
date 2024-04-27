@@ -25,22 +25,24 @@ function getDataDetail() {
     });
 }
 
-function saveData() { 
-    var wording = "Save";
-    globalGetConfirmationSwal(wording + " this data?", function (result) {
+function saveData() {
+    var dt = globalConvertFormSerializeToJson($("#frmDetail").serialize());
+    dt.bitActive = $("#Bitactive_Value").is(":checked") //$("#Bitactive_Value").val();
+    dt.id = data.id;
+    globalGetConfirmationSwal("Save this data?", function (result) {
         if (result.isConfirmed) {
             if (validateData(data)) {
                 $.ajax({
                     type: "POST",
                     url: "/MUsers/Create",
                     data: {
-                        ParamMUserModel: data
-                        //__RequestVerificationToken: $('#frmDetail input[name=__RequestVerificationToken]').val()
+                        ParamMUserModel: data,
+                        __RequestVerificationToken: $('#frmDetail input[name=__RequestVerificationToken]').val()
                     },
                     datatype: "json",
                     success: function (result) {
                         data = result.data;
-                        mappingDataIntoUI(result.data)
+                        window.location.href = "/Musers/Index";
                     },
                     error: function (xhr, error, thrown) {
                         globalShowAlertError(xhr.responseText);
@@ -52,6 +54,39 @@ function saveData() {
 
    
 }
+
+
+function updateData() {
+    var dt = globalConvertFormSerializeToJson($("#frmDetail").serialize());
+    dt.bitActive = $("#Bitactive_Value").is(":checked") //$("#Bitactive_Value").val();
+    dt.id = data.id;
+    globalGetConfirmationSwal("Update this data?", function (result) {
+        if (result.isConfirmed) {
+            if (validateData()) {
+                $.ajax({
+                    type: "POST",
+                    url: "/MUsers/Update",
+                    data: {
+                        ParamMUserModel: dt,
+                        __RequestVerificationToken: $('#frmDetail input[Name=__RequestVerificationToken]').val()
+                    },
+                    datatype: "json",
+                    success: function (result) {
+                        data = result.data;
+                        window.location.href = "/Musers/Index";
+                        //mappingDataIntoUI(result.data)
+                    },
+                    error: function (xhr, error, thrown) {
+                        globalShowAlertError(xhr.responseText);
+                    }
+                });
+            }
+        }
+    });
+
+
+}
+
 
 
 //Mapping
@@ -82,5 +117,9 @@ function validateData() {
 
 //EVENT
 $('#btnSave').click(function () {
-    saveData();
+    if (globalIsNullOrEmptyString(data.id)) {
+        saveData();
+    } else {
+        updateData();
+    }
 });

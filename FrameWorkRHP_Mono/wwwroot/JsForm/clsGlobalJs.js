@@ -1,7 +1,7 @@
 ﻿// === BLOCK UI ===
 $(document).ajaxStart(function () {
 
-    $.blockUI({ message: '<h1><img src="~/../../plugins/blockui/giphy.gif" /> Just a moment...</h1>' });
+    $.blockUI({ message: '<h1><img src="~/../../plugins/blockui/giphy.gif" /> </br> Just a moment...</h1>' });
 });
 
 

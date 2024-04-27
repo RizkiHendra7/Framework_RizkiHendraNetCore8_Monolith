@@ -13,6 +13,12 @@ namespace FrameWorkRHP_Mono.Models
 
             CreateMap<MMenu, DTOMMenus>();
             CreateMap<DTOMMenus, MMenu>();
+
+            CreateMap<MRoleXMenu, DTOMroleXMenu>();
+            CreateMap<DTOMroleXMenu, MRoleXMenu>();
+
+            CreateMap<Mrole, DTOMRoles>();
+            CreateMap<DTOMRoles, Mrole>();
         }
     }
 }
