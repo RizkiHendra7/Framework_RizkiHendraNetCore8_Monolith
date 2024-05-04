@@ -7,7 +7,8 @@ $(document).ready(function () {
 //Data Table
 function renderDataTable() { 
     DtMain =  $('#dataTableMain').DataTable({   
-        "ordering": false, 
+        "info": true,
+        "ordering": false,
         "autoWidth": false,
         "responsive": true,
         "serverSide": true,

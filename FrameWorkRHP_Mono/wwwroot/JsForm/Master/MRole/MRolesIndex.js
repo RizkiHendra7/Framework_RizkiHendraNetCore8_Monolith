@@ -2,16 +2,15 @@
 $(document).ready(function () {
     renderDataTable();
 });
-//Data Table
 function renderDataTable() {
-   DtMain=  $('#dataTableMain').DataTable({ 
-        "info": true,  
+   DtMain =  $('#dataTableMain').DataTable({
+        "info": true,
         "ordering": false,
         "autoWidth": false,
         "responsive": true,
         "serverSide": true,
         "ajax": {
-            url: '/MMenus/GetDataIndex',
+            url: '/MRoles/GetDataIndex',
             type: "POST",
             dataSrc: function (json) {
                 if (json.errorMessage == null) {
@@ -24,10 +23,7 @@ function renderDataTable() {
             }
         },
         "columns": [
-            { "data": "txtmenuname" },
-            { "data": "txtParentMenu" },
-            { "data": "txtmenudisplay" },
-            { "data": "txturl" }, 
+            { "data": "txtmenuname" }, 
             {
                 "data": "bitactive",
                 "className": "dt-center",
@@ -39,7 +35,7 @@ function renderDataTable() {
                 "data": "intmenuid",
                 "className": "dt-center", 
                 render: function (data, type, full) {
-                    return '<a href="/MMenus/Details?id=' + encodeURIComponent(full.intmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
+                    return '<a href="/MRoles/Details?id=' + encodeURIComponent(full.intmenuid) + '" class="btn btn-success center" style="font-size:12px;"> <i class="fa fa-edit" style="font-size:12px;"></i>  VIEW </a>';
                 }
             }
         ]

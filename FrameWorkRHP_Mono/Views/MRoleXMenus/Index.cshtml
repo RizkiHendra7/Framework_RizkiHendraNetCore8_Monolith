@@ -1,5 +1,60 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Master RoleXMenu";
 }
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    <h1>Master Role Menu</h1>
+                </div>
+                <div class="col-sm-8">
+                    <div class="col-sm-4 offset-sm-8">
+                        <a href="~/MRoleXMenus/Details" class="btn btn-block bg-gradient-info"> <i class="fa fa-book"></i> Create Data</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">List Data Role Menu</h3>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" id="inptSearchTableMain" name="table_search" class="form-control float-right" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="button" id="btnSearchTableMain" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="dataTableMain" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Menu</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="~/jsform/master/mRoleXMenu/MRoleXMenusIndex.js"></script> 

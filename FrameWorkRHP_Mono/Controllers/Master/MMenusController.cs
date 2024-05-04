@@ -34,7 +34,7 @@ namespace FrameWorkRHP_Mono.Controllers.Master
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> GetDataIndex(cstmFilterDataTable param)
         {
             try

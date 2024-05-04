@@ -87,8 +87,10 @@ namespace FrameWorkRHP_Mono.Services.ServicesImplement
                 paramModel.search.value = paramModel.search.value.ToUpper();
             }
 
-            var query = "SELECT\r\n   * " + paramModel.getPaggingQuery + 
-                         " FROM\r\n  MRoleXMenu  mmn  " + searchQuery +
+            var query = "SELECT\r\n  m.txtrolename , b.txtmenuname ,a.bitactive ,a.intmrolexmenuid  " + paramModel.getPaggingQuery +
+                         " FROM\r\n  MRoleXMenu  a \r\n " +
+                         " inner join mrole m on a.introleid = m.introleid \r\n " +
+                         " inner join mmenu b on a.intmenuid = b.intmenuid " + searchQuery +
                          " ORDER BY\r\n   Intmrolexmenuid " + paramModel.paggingQuery;
             var result = await _unitOfWork.GenericDataTables.getWithDataTable<VwMRoleXMenu.indexDataTable>(query, paramModel.search.value, paramModel.draw);
 
